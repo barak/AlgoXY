@@ -6,6 +6,17 @@ BOOK-EN := $(wildcard *-en.tex)
 cn: $(BOOK-CN:.tex=.pdf)
 en: $(BOOK-EN:.tex=.pdf)
 
+# This forces latexmk to be run even if these targets *seem* up to
+# date. The reason to do this is that latexmk knows the true
+# dependencies, and will only do work if actually necessary.
+$(BOOK-CN:.tex=.pdf): FORCE
+$(BOOK-EN:.tex=.pdf): FORCE
+
+DOTS = $(shell find . -name '*.dot')
+PDFS = $(DOTS:.dot=.pdf)
+
+pdf: $(PDFS)
+
 TEX_FLAGS =
 
 %.pdf: %.tex; latexmk -cd -lualatex $(TEX_FLAGS) $<
@@ -31,3 +42,5 @@ clean:
 	git clean -fdx
 
 .PHONY: all cn en chapters chapters-cn chapters-en
+FORCE:
+.PHONY:  FORCE force-cn force-en pdf
