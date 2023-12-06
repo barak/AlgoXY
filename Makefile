@@ -12,11 +12,6 @@ en: $(BOOK-EN:.tex=.pdf)
 $(BOOK-CN:.tex=.pdf): FORCE
 $(BOOK-EN:.tex=.pdf): FORCE
 
-DOTS = $(shell find . -name '*.dot')
-PDFS = $(DOTS:.dot=.pdf)
-
-pdf: $(PDFS)
-
 TEX_FLAGS =
 
 %.pdf: %.tex; latexmk -cd -lualatex $(TEX_FLAGS) $<
